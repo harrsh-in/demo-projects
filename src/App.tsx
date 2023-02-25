@@ -1,38 +1,41 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
+import React, { useState } from "react";
+import { useUploadForm } from "./hooks/uploadFile";
 
-function App() {
-    const [count, setCount] = useState(0);
+interface PostData {
+    image: File | null;
+}
+
+const App = () => {
+    const [formValues, setFormValues] = useState<PostData>({
+        image: null,
+    });
+
+    const { isSuccess, uploadForm, progress, size } = useUploadForm(
+        "https://salon.server.harrsh.com/api/v1/get-file-upload-link"
+    );
+
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormValues((prevFormValues) => ({
+            ...prevFormValues,
+            image: event.target.files ? event.target.files[0] : null,
+        }));
+    };
+
+    const handleSubmit = async () => {
+        const formData = new FormData();
+        formValues.image && formData.append("image", formValues.image);
+        return await uploadForm(formData);
+    };
 
     return (
-        <div className="App">
-            <div>
-                <a href="https://vitejs.dev" target="_blank">
-                    <img src="/vite.svg" className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://reactjs.org" target="_blank">
-                    <img
-                        src={reactLogo}
-                        className="logo react"
-                        alt="React logo"
-                    />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
+        <div>
+            {isSuccess}
+            {progress}
+            <input type="file" name="" id="" onChange={handleImageChange} />
+            <button onClick={handleSubmit}>Submit</button>
+            {size}MB
         </div>
     );
-}
+};
 
 export default App;
