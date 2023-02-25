@@ -1,1 +1,1 @@
-# demo-projects
+# Demo Projects
