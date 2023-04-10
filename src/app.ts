@@ -1,3 +1,4 @@
+import connectDB from './providers/db';
 import Express from './providers/express';
 import initializeLocales from './providers/locale';
 import logger from './providers/logger';
@@ -17,6 +18,7 @@ Promise.all([
 
     const httpServer = Server(app);
     await httpServer.start();
+    await connectDB();
 });
 
 process.on('uncaughtException', (err) => {

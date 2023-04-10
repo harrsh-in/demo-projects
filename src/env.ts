@@ -26,6 +26,10 @@ const env = {
     cors: {
         urls: getOsEnv('CORS_AVAILABLE_LINKS').split(','),
     },
+
+    db: {
+        url: getOsEnv('MONGODB_URI'),
+    },
 };
 
 export default env;

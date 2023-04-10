@@ -23,6 +23,7 @@
         "i18next-fs-backend": "^2.1.1",
         "i18next-http-middleware": "^3.2.2",
         "lodash": "^4.17.21",
+        "mongoose": "^7.0.0",
         "pino": "^8.11.0"
     },
     "devDependencies": {
